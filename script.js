@@ -9,8 +9,8 @@ pureScriptSearchNSelect = (selector) => {
         let select = item.querySelector('select'),
         sibling = item.querySelector('.virtualSelect'),            
         option = select.querySelectorAll('option');           
-        let html = `<button>${option[0].text}</button><div class="popUp">
-        <input class='pureStyle' type="text" id='value' placeholder='Your Item Search Here'>
+        let html = `<button>${option[0].text} <span>&raquo;</span></button><div class="popUp">
+        <input class='pureStyle' type="text" id='value' placeholder='Filter Options....'>
         <div class="popUp2"></div>
         </div>`;
         sibling.innerHTML = html;
@@ -21,7 +21,10 @@ pureScriptSearchNSelect = (selector) => {
         option.forEach((el, index) => {
             arry.push(el.value);
             arryEl.push(el);
-            el.style.display = 'none';        
+            el.style.display = 'none';
+            if(el.hasAttribute('selected')){
+                button.innerHTML = el.value +'<span>&raquo;</span>';
+            };
         });
         
         var input = document.querySelector('.popUp input');
@@ -59,7 +62,7 @@ pureScriptSearchNSelect = (selector) => {
                 el.addEventListener('click', (event) => {
                     elem[index].setAttribute('selected', 'selected');
                     sibling.querySelector('.popUp').classList.remove('hasClass');
-                    document.querySelector('button').innerHTML = elem[index].text;
+                    document.querySelector('button').innerHTML = elem[index].text +'<span>&raquo;</span>';
                 });
             }); 
         });
@@ -91,7 +94,7 @@ pureScriptSearchNSelect = (selector) => {
                 el.addEventListener('click', (event) => {
                     elem[index].setAttribute('selected', 'selected');
                     sibling.querySelector('.popUp').classList.remove('hasClass');
-                    document.querySelector('button').innerHTML = elem[index].text;
+                    document.querySelector('button').innerHTML = elem[index].text +'<span>&raquo;</span>';
                 });
             });
         });

@@ -26,28 +26,72 @@ button, .popUp, .popUp input{
     margin: 0;
     padding: 0;
 }
-button{
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    background: #efefef;
-    border-radius: 2px;
-    cursor: pointer;
+button {
+	padding: 8px 10px;
+	border: none;
+	background: #fff;
+	border-radius: 0px;
+	cursor: pointer;
+	box-shadow: 0px 0px 3px #ddd;	
+    font-size: 16px;
+    position: relative;
 }
-.popUp{
-    background: #fff;
-    box-shadow: 1px 2px 3px #aaa;
-    padding: 5px;
-    box-sizing: border-box;
-    display: none;
+button:focus {
+    outline: none;
+}
+button span {
+	position: absolute;
+	width: 35px;
+	height: 40px;
+	background: #fff;
+	top: -3px;
+	right: 2px;
+	font-size: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: rotate(90deg);
+	border-bottom: 1px solid #efefef;
+	color: #efefef;
+	padding-bottom: 8px;
+	box-sizing: border-box;
+}
+button:hover span{
+    color: #000;
+}
+.popUp {
+	background: #fff;
+	box-shadow: 1px 2px 3px #aaa;
+	padding: 5px;
+	box-sizing: border-box;
+	display: none;
+    margin-top: 1px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+.popUp::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgb(241, 241, 241);
+}
+.popUp::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+}
+.popUp::-moz-scrollbar {
+    width: 6px;
+    background-color: rgb(241, 241, 241);
+}
+.popUp::-moz-scrollbar-thumb {
+    background-color: #ddd;
 }
 .popUp.hasClass{
     display: block;
 }
 .popUp input {
-    box-shadow: 1px 1px 2px #888;
+    /* box-shadow: 1px 1px 2px #888; */
     padding: 6px 5px;
     box-sizing: border-box;
-    border: 1px solid #ddd;
+    border: none;
+    border-bottom: 1px solid #ddd;
 }
 .popUp ul{
     list-style-type: none;
@@ -56,8 +100,8 @@ button{
 }
 .popUp ul li{
     cursor: pointer;
-    padding: 5px 5px;    
+    padding: 5px 0px 5px 5px;    
 }
 .popUp ul li:hover{
-    background: #eee;
+    background: #fafafa;
 }
