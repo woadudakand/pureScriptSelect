@@ -21,12 +21,12 @@ body{
     min-width: 300px;
     background: #fff;    
 }
-button, .popUp, .popUp input{
+.virtualSelect button, .popUp, .popUp input{
     width: 100%;
     margin: 0;
     padding: 0;
 }
-button {
+.virtualSelect button {
 	padding: 8px 10px;
 	border: none;
 	background: #fff;
@@ -36,10 +36,10 @@ button {
     font-size: 16px;
     position: relative;
 }
-button:focus {
+.virtualSelect button:focus {
     outline: none;
 }
-button span {
+.virtualSelect button span {
 	position: absolute;
 	width: 35px;
 	height: 40px;
@@ -56,7 +56,7 @@ button span {
 	padding-bottom: 8px;
 	box-sizing: border-box;
 }
-button:hover span{
+.virtualSelect button:hover {
     color: #000;
 }
 .popUp {
@@ -104,4 +104,27 @@ button:hover span{
 }
 .popUp ul li:hover{
     background: #fafafa;
+}
+
+.popUp ul li img {
+    width: 20px;    
+    float: right;
+}
+.popUp ul li b {   
+    float: right;
+}
+.virtualSelect button .item{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    margin-top: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.virtualSelect button .item img{
+    width: 100%;      
 }

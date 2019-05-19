@@ -9,7 +9,7 @@ pureScriptSearchNSelect = (selector) => {
         let select = item.querySelector('select'),
         sibling = item.querySelector('.virtualSelect'),            
         option = select.querySelectorAll('option');           
-        let html = `<button>${option[0].text} <span>&raquo;</span></button><div class="popUp">
+        let html = `<button>${option[0].text} <span class"angel">&raquo;</span></button><div class="popUp">
         <input class='pureStyle' type="text" id='value' placeholder='Filter Options....'>
         <div class="popUp2"></div>
         </div>`;
@@ -17,16 +17,17 @@ pureScriptSearchNSelect = (selector) => {
         let arry = [],
         arryEl = [],
         button = sibling.querySelector('button');
-        el1 = '';        
+        el1 = '';
+        
         option.forEach((el, index) => {
             arry.push(el.value);
             arryEl.push(el);
             el.style.display = 'none';
             if(el.hasAttribute('selected')){
-                button.innerHTML = el.value +'<span>&raquo;</span>';
-            };
+                button.innerHTML = el.value +'<span class="angel">&raquo;</span>';
+            };            
         });
-        
+        //console.log(attribute);
         var input = document.querySelector('.popUp input');
         document.body.addEventListener('click', (event) => {            
             if(event.target == button || event.target == input)             
@@ -52,17 +53,26 @@ pureScriptSearchNSelect = (selector) => {
             });
             var item = '<ul>';
             elem.forEach((el, key) => {
-                item += '<li>'+el.text+'</li>';
+                var attrbute = '';
+                var attrbute2 = '';
+                if(el.hasAttribute('img')){
+                    attrbute = el.getAttribute('img');
+                }
+
+                if(el.hasAttribute('icon')) {
+                    attrbute2 = el.getAttribute('icon');
+                }
+                item += '<li>'+el.text+' <i class="item"><img src='+ attrbute +'  /><b class="'+attrbute2+'"></b></b></i></li>';
             });
             item += '</ul>';
             var popUp = document.querySelector('.popUp2');
             popUp.innerHTML = item;
             var li = document.querySelectorAll('li');
-            li.forEach((el, index) => {
+            li.forEach((el, index) => {                               
                 el.addEventListener('click', (event) => {
                     elem[index].setAttribute('selected', 'selected');
                     sibling.querySelector('.popUp').classList.remove('hasClass');
-                    document.querySelector('button').innerHTML = elem[index].text +'<span>&raquo;</span>';
+                    document.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';
                 });
             }); 
         });
@@ -84,7 +94,16 @@ pureScriptSearchNSelect = (selector) => {
             });
             var item = '<ul>';
             elem.forEach((el, key) => {
-                item += '<li>'+el.text+'</li>';
+                var attrbute = '';
+                var attrbute2 = '';
+                if(el.hasAttribute('img')){
+                    attrbute = el.getAttribute('img');
+                }
+
+                if(el.hasAttribute('icon')) {
+                    attrbute2 = el.getAttribute('icon');
+                }
+                item += '<li>'+el.text+' <i class="item"><img src='+ attrbute +'  /><b class="'+attrbute2+'"></b></b></i></li>';
             });
             item += '</ul>';
             var popUp = document.querySelector('.popUp2');
@@ -94,7 +113,7 @@ pureScriptSearchNSelect = (selector) => {
                 el.addEventListener('click', (event) => {
                     elem[index].setAttribute('selected', 'selected');
                     sibling.querySelector('.popUp').classList.remove('hasClass');
-                    document.querySelector('button').innerHTML = elem[index].text +'<span>&raquo;</span>';
+                    document.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
                 });
             });
         });
