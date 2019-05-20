@@ -56,7 +56,7 @@ body{
 	padding-bottom: 8px;
 	box-sizing: border-box;
 }
-.virtualSelect button:hover {
+.virtualSelect button:hover span{
     color: #000;
 }
 .popUp {

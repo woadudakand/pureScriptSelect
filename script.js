@@ -62,7 +62,7 @@ pureScriptSearchNSelect = (selector) => {
                 if(el.hasAttribute('icon')) {
                     attrbute2 = el.getAttribute('icon');
                 }
-                item += '<li>'+el.text+' <i class="item"><img src='+ attrbute +'  /><b class="'+attrbute2+'"></b></b></i></li>';
+                item += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
             });
             item += '</ul>';
             var popUp = document.querySelector('.popUp2');
@@ -103,7 +103,7 @@ pureScriptSearchNSelect = (selector) => {
                 if(el.hasAttribute('icon')) {
                     attrbute2 = el.getAttribute('icon');
                 }
-                item += '<li>'+el.text+' <i class="item"><img src='+ attrbute +'  /><b class="'+attrbute2+'"></b></b></i></li>';
+                item += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
             });
             item += '</ul>';
             var popUp = document.querySelector('.popUp2');
