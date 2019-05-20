@@ -5,13 +5,11 @@ body{
 }
 .style{
     width: 300px;
-    margin: 100px auto;
-    height: 100vh;
+    margin: 100px 50px;
+    height: 300px;
+    float: left;    
 }
-#wrap {
-	position: relative;
-	z-index: 0;	
-}
+
 .virtualSelect {
     position: absolute;
     top: 0;
