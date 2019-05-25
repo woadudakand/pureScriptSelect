@@ -50,7 +50,7 @@ pureScriptSearchNSelect = (selector) => {
             var elem = [];
             arryEl.forEach((el, index) => {
                 filter.forEach(e => {
-                    if(el.value == e){
+                    if(el.text.toLowerCase() == e){
                         elem.push(el);
                         el.style.display = 'block';                
                     } 
@@ -84,14 +84,14 @@ pureScriptSearchNSelect = (selector) => {
 
         var value = item.querySelector('input');                 
         value.addEventListener('keyup', (event) => {
-            var itemValue = event.target.value;
+            var itemValue = event.target.value.toLowerCase();
             var filter = arry.filter((el, index) => {
                     return el.startsWith(itemValue);
                 });        
             var elem = [];
             arryEl.forEach((el, index) => {
                 filter.forEach(e => {
-                    if(el.value == e){
+                    if(el.text.toLowerCase() == e){
                         elem.push(el);
                         el.style.display = 'block';                
                     } 
