@@ -101,7 +101,7 @@ body{
     padding: 5px 0px 5px 5px;    
 }
 .popUp ul li:hover{
-    background: #fafafa;
+    color: #01e9286c;
 }
 
 .popUp ul li img {
@@ -125,4 +125,23 @@ body{
 
 .virtualSelect button .item img{
     width: 100%;      
+}
+.inputShow{
+    display: block;
+}
+.inputHide{
+    display: none;
+}
+
+.items{
+    display: inline-block;
+    background: #ddd;
+    padding: 5px;
+    margin: 0 3px;
+}
+.hideListItem {
+    background-color: #fff;
+}
+.showListItem {
+    background-color: rgb(199, 6, 6);
 }
