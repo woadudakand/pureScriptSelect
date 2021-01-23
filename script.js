@@ -168,7 +168,8 @@ pureScriptSearchNSelect = (selector, options) => {
                     button.innerHTML = el.value +'<span class="angel">&raquo;</span>';
                 };            
             });
-            
+            option[0].setAttribute('selected', 'selected');
+            option[0].value = JSON.stringify(selectedItems);
             //console.log(attribute);
             
             document.body.addEventListener('click', (event) => {                        
@@ -181,7 +182,7 @@ pureScriptSearchNSelect = (selector, options) => {
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-
+                
                 sibling.querySelector('.popUp').classList.toggle('hasClass');
                 
                 var elem = [];
@@ -193,6 +194,7 @@ pureScriptSearchNSelect = (selector, options) => {
                         } 
                     });     
                 });
+                var popUp = item.querySelector('.popUp2');
                 
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {                    
@@ -205,31 +207,50 @@ pureScriptSearchNSelect = (selector, options) => {
                     if(el.hasAttribute('icon')) {
                         attrbute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li class="${selectedItems.map(item => item.key !== key ? 'hideListItem': 'showListItem')}">${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
+                    
+                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
                 });
                 item2 += '</ul>';
-                var popUp = item.querySelector('.popUp2');
+                
                 popUp.innerHTML = item2;
                 var li = item.querySelectorAll('li');
                 
-                li.forEach((el, index) => {                    
+                selectedItems.map((item, key) => {
+                    li[item.key].classList.remove('hideListItem')
+                    return li[item.key].classList.add('showListItem')
+                });
+
+                li.forEach((el, index) => { 
                     el.addEventListener('click', (event) => {
-                        elem[index].setAttribute('selected', 'selected');
                         selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
+                        option[0].setAttribute('selected', 'selected');
+                        option[0].value = JSON.stringify(selectedItems);
                         
                         event.target.classList.remove('hideListItem')  
                         event.target.classList.add('showListItem')  
                         insertSearchItem();         
                     });
-                    eventDelegation('click', '.delete', function(e){
-                        selectedItems = selectedItems.filter(item => item.key !== parseInt(e.target.getAttribute('data-key')));
-                        insertSearchItem();
-                        li[parseInt(e.target.getAttribute('data-key'))].classList.remove('showListItem')
-                        li[parseInt(e.target.getAttribute('data-key'))].classList.add('hideListItem')
-                        
-                    }); 
                 });
+                
+                
             });
+
+            eventDelegation('click', '.delete', function(e){
+                var li = item.querySelectorAll('li');
+                selectedItems = selectedItems.filter(item => item.key !== parseInt(e.target.getAttribute('data-key')));
+                li.forEach((element, index) => {
+                    if(parseInt(e.target.getAttribute('data-key')) === index){                            
+                        element.classList.add('hideListItem')
+                        element.classList.remove('showListItem')
+                    }
+                })
+                
+                insertSearchItem();
+                option[0].setAttribute('selected', 'selected');
+                option[0].value = JSON.stringify(selectedItems);
+            });
+            // elem[0].setAttribute('selected', 'selected');
+            // elem[0].value = JSON.stringify(selectedItems);                    
 
             var value = item.querySelector('input');                 
             value && value.addEventListener('keyup', (event) => {
