@@ -1,15 +1,18 @@
-pureScriptSearchNSelect = (selector, options) => {
+pureScriptSearchNSelect = (selector) => {
     let selectors = document.querySelectorAll(selector);
     function eventDelegation(event, selector, program) {
         document.body.addEventListener(event, function(e) {
-                document.querySelectorAll(selector).forEach(elem => {
-                    if (e.target === elem) {
-                            program(e);
-                    }
-                })
+            document.querySelectorAll(selector).forEach(elem => {
+                if (e.target === elem) {
+                    program(e);
+                }
+            })
         });
     }
     selectors.forEach((item, index) => {
+        const multiSelect = item.getAttribute('multiSelect');
+        const isSearch = item.getAttribute('isSearch');
+
         function singleSelect(){
             let virtualSelect = document.createElement('div');
             virtualSelect.classList.add('virtualSelect');
@@ -23,7 +26,7 @@ pureScriptSearchNSelect = (selector, options) => {
                 option = sel.querySelectorAll('option');
             });        
             let html = `<button>${option[0].text} <span class"angel">&raquo;</span></button><div class="popUp">
-            <input class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' />
+            <input class='pureStyle ${ isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' />
             <div class="popUp2"></div>
             </div>`;
             sibling.innerHTML = html;
@@ -133,8 +136,8 @@ pureScriptSearchNSelect = (selector, options) => {
             });
         }
 
-        function multiSelect(){
-            let selectedItems = options.defaultValue === undefined ? [] : [...options.defaultValue];
+        function multiSelects(){            
+            let selectedItems = eval(multiSelect);
             let virtualSelect = document.createElement('div');
             virtualSelect.classList.add('virtualSelect');
             item.append(virtualSelect);
@@ -146,7 +149,7 @@ pureScriptSearchNSelect = (selector, options) => {
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
             });        
-            let html = `<div id="searchItem"></div><input id="button" class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /><div class="popUp">            
+            let html = `<div id="searchItem"></div><input id="button" class='pureStyle ${ isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /><div class="popUp">            
             <div class="popUp2"></div>
             </div>`;
 
@@ -288,12 +291,13 @@ pureScriptSearchNSelect = (selector, options) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
                         sibling.querySelector('.popUp').classList.remove('hasClass');
-                        item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                        item.querySelector('#button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
                     });
                 });
             });
         }
 
-        options.multiSelect ? multiSelect() : singleSelect();
+        multiSelect ? multiSelects() : singleSelect();
+       
     });  
 }
