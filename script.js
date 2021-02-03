@@ -146,12 +146,12 @@ pureScriptSearchNSelect = (selector, options) => {
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
             });        
-            let html = `<div id="directorist-select__label"><div id="directorist-select__selected-list"></div><input class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /></div><div class="directorist-select__dropdown">            
+            let html = `<div id="directorist-select__label"><div id="directorist-select__selected-list"></div><input class='directorist-select__search ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /></div><div class="directorist-select__dropdown">            
             <div class="directorist-select__dropdown--inner"></div>
             </div>`;
 
             function insertSearchItem () {
-                document.getElementById('directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="delete">x</a></span>`).join("")
+                document.getElementById('directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove">x</a></span>`).join("")
             }
             
             sibling.innerHTML = html;
@@ -176,14 +176,14 @@ pureScriptSearchNSelect = (selector, options) => {
                 if(event.target == button || event.target.closest('.directorist-select__container')){
                     return;
                 } else {
-                    sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                    sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                 }                
             });
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                sibling.querySelector('.directorist-select__dropdown').classList.add('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
                 
                 var elem = [];
                 arryEl.forEach((el, index) => {
@@ -235,7 +235,7 @@ pureScriptSearchNSelect = (selector, options) => {
                 
             });
 
-            eventDelegation('click', '.delete', function(e){
+            eventDelegation('click', '.directorist-item-remove', function(e){
                 var li = item.querySelectorAll('li');
                 selectedItems = selectedItems.filter(item => item.key !== parseInt(e.target.getAttribute('data-key')));
                 li.forEach((element, index) => {
@@ -287,7 +287,7 @@ pureScriptSearchNSelect = (selector, options) => {
                 li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.popUp').classList.remove('hasClass');
+                        sibling.querySelector('.popUp').classList.remove('directorist-select__dropdown.open');
                         item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
                     });
                 });
