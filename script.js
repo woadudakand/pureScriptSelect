@@ -12,47 +12,47 @@ pureScriptSearchNSelect = (selector, options) => {
     selectors.forEach((item, index) => {
         function singleSelect(){
             let virtualSelect = document.createElement('div');
-            virtualSelect.classList.add('virtualSelect');
+            virtualSelect.classList.add('directorist-select__container');
             item.append(virtualSelect);
             item.style.position = 'relative';
-            item.style.zIndex = '0';        
+            item.style.zIndex = '2';
             let select = item.querySelectorAll('select'),
-            sibling = item.querySelector('.virtualSelect'),
+            sibling = item.querySelector('.directorist-select__container'),
             option = ''           ;
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
-            });        
-            let html = `<button>${option[0].text} <span class"angel">&raquo;</span></button><div class="popUp">
-            <input class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' />
-            <div class="popUp2"></div>
+            });
+            let html = `<span class="directorist-select__label">${option[0].text} <span class="la la-angle-down"></span></span class=""><div class="directorist-select__dropdown">
+            <input class='directorist-select__search ${ options.isSearch ? 'directorist-select__search--show' : 'directorist-select__search--hide' }' type='text' class='value' placeholder='Filter Options....' />
+            <div class="directorist-select__dropdown--inner"></div>
             </div>`;
             sibling.innerHTML = html;
             let arry = [],
             arryEl = [],
-            button = sibling.querySelector('button');
-            el1 = '';
-        
+            selectTrigger = sibling.querySelector('.directorist-select__label');
+            // el1 = '';
+
             option.forEach((el, index) => {
                 arry.push(el.value);
                 arryEl.push(el);
-                el.style.display = 'none';            
+                el.style.display = 'none';
                 if(el.hasAttribute('selected')){
-                    button.innerHTML = el.value +'<span class="angel">&raquo;</span>';
-                };            
+                    selectTrigger.innerHTML = el.value +'<span class="la la-angle-down"></span>';
+                };
             });
-            
+
             //console.log(attribute);
-            var input = item.querySelector('.popUp input');
-            document.body.addEventListener('click', (event) => {                        
-                if(event.target == button || event.target == input)             
+            var input = item.querySelector('.directorist-select__dropdown input');
+            document.body.addEventListener('click', (event) => {
+                if(event.target == selectTrigger || event.target == input)
                 return;
-                sibling.querySelector('.popUp').classList.remove('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
                 input.value = '';
             });
 
-            button.addEventListener('click', (e) => {
+            selectTrigger.addEventListener('click', (e) => {
                 e.preventDefault();
-                sibling.querySelector('.popUp').classList.toggle('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.toggle('hasClass');
                 var filter = arry.filter((el, index) => {
                     return el;
                 });
@@ -61,50 +61,9 @@ pureScriptSearchNSelect = (selector, options) => {
                     filter.forEach(e => {
                         if(el.text.toLowerCase() == e){
                             elem.push(el);
-                            el.style.display = 'block';                
-                        } 
-                    });     
-                });
-                var item2 = '<ul>';
-                elem.forEach((el, key) => {
-                    var attrbute = '';
-                    var attrbute2 = '';
-                    if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
-                    }
-
-                    if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
-                    }
-                    item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
-                });
-                item2 += '</ul>';
-                var popUp = item.querySelector('.popUp2');
-                popUp.innerHTML = item2;
-                var li = item.querySelectorAll('li');
-                li.forEach((el, index) => {                               
-                    el.addEventListener('click', (event) => {
-                        elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.popUp').classList.remove('hasClass');
-                        item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';
+                            el.style.display = 'block';
+                        }
                     });
-                }); 
-            });
-
-            var value = item.querySelector('input');                 
-            value && value.addEventListener('keyup', (event) => {
-                var itemValue = event.target.value.toLowerCase();
-                var filter = arry.filter((el, index) => {
-                        return el.startsWith(itemValue);
-                    });        
-                var elem = [];
-                arryEl.forEach((el, index) => {
-                    filter.forEach(e => {
-                        if(el.text.toLowerCase() == e){
-                            elem.push(el);
-                            el.style.display = 'block';                
-                        } 
-                    });    
                 });
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {
@@ -117,17 +76,58 @@ pureScriptSearchNSelect = (selector, options) => {
                     if(el.hasAttribute('icon')) {
                         attrbute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
+                    item2 += `<li>${el.text}`;
                 });
                 item2 += '</ul>';
-                var popUp = item.querySelector('.popUp2');
+                var popUp = item.querySelector('.directorist-select__dropdown--inner');
                 popUp.innerHTML = item2;
                 var li = item.querySelectorAll('li');
                 li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.popUp').classList.remove('hasClass');
-                        item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                        sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                        item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
+                    });
+                });
+            });
+
+            var value = item.querySelector('input');
+            value && value.addEventListener('keyup', (event) => {
+                var itemValue = event.target.value.toLowerCase();
+                var filter = arry.filter((el, index) => {
+                        return el.startsWith(itemValue);
+                    });
+                var elem = [];
+                arryEl.forEach((el, index) => {
+                    filter.forEach(e => {
+                        if(el.text.toLowerCase() == e){
+                            elem.push(el);
+                            el.style.display = 'block';
+                        }
+                    });
+                });
+                var item2 = '<ul>';
+                elem.forEach((el, key) => {
+                    var attrbute = '';
+                    var attrbute2 = '';
+                    if(el.hasAttribute('img')){
+                        attrbute = el.getAttribute('img');
+                    }
+
+                    if(el.hasAttribute('icon')) {
+                        attrbute2 = el.getAttribute('icon');
+                    }
+                    item2 += `<li>${el.text}</li>`;
+                });
+                item2 += '</ul>';
+                var popUp = item.querySelector('.directorist-select__dropdown--inner');
+                popUp.innerHTML = item2;
+                var li = item.querySelectorAll('li');
+                li.forEach((el, index) => {
+                    el.addEventListener('click', (event) => {
+                        elem[index].setAttribute('selected', 'selected');
+                        sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                        item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
                     });
                 });
             });
@@ -136,28 +136,28 @@ pureScriptSearchNSelect = (selector, options) => {
         function multiSelect(){
             let selectedItems = options.defaultValue === undefined ? [] : [...options.defaultValue];
             let virtualSelect = document.createElement('div');
-            virtualSelect.classList.add('virtualSelect');
+            virtualSelect.classList.add('directorist-select__container');
             item.append(virtualSelect);
             item.style.position = 'relative';
             item.style.zIndex = '0';        
             let select = item.querySelectorAll('select'),
-            sibling = item.querySelector('.virtualSelect'),
+            sibling = item.querySelector('.directorist-select__container'),
             option = ''           ;
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
             });        
-            let html = `<div id="searchItem"></div><input id="button" class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /><div class="popUp">            
-            <div class="popUp2"></div>
+            let html = `<div id="directorist-select__label"><div id="directorist-select__selected-list"></div><input class='pureStyle ${ options.isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /></div><div class="directorist-select__dropdown">            
+            <div class="directorist-select__dropdown--inner"></div>
             </div>`;
 
             function insertSearchItem () {
-                document.getElementById('searchItem').innerHTML = selectedItems.map(item => `<span class="items">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="delete">x</a></span>`).join("")
+                document.getElementById('directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="delete">x</a></span>`).join("")
             }
             
             sibling.innerHTML = html;
             let arry = [],
             arryEl = [],
-            button = sibling.querySelector('#button');
+            button = sibling.querySelector('#directorist-select__label');
             el1 = '';
             insertSearchItem();
             option.forEach((el, index) => {
@@ -173,17 +173,17 @@ pureScriptSearchNSelect = (selector, options) => {
             //console.log(attribute);
             
             document.body.addEventListener('click', (event) => {                        
-                if(event.target == button || event.target.closest('.virtualSelect')){
+                if(event.target == button || event.target.closest('.directorist-select__container')){
                     return;
                 } else {
-                    sibling.querySelector('.popUp').classList.remove('hasClass');
+                    sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
                 }                
             });
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                sibling.querySelector('.popUp').classList.toggle('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.add('hasClass');
                 
                 var elem = [];
                 arryEl.forEach((el, index) => {
@@ -194,7 +194,7 @@ pureScriptSearchNSelect = (selector, options) => {
                         } 
                     });     
                 });
-                var popUp = item.querySelector('.popUp2');
+                var popUp = item.querySelector('.directorist-select__dropdown--inner');
                 
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {                    
@@ -281,7 +281,7 @@ pureScriptSearchNSelect = (selector, options) => {
                     item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
                 });
                 item2 += '</ul>';
-                var popUp = item.querySelector('.popUp2');
+                var popUp = item.querySelector('.directorist-select__dropdown--inner');
                 popUp.innerHTML = item2;
                 var li = item.querySelectorAll('li');
                 li.forEach((el, index) => {
