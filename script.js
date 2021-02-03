@@ -179,10 +179,11 @@ pureScriptSearchNSelect = (selector, options) => {
                     sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                 }                
             });
+            var value = item.querySelector('input');  
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+                value.focus();
                 sibling.querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
                 
                 var elem = [];
@@ -252,7 +253,7 @@ pureScriptSearchNSelect = (selector, options) => {
             // elem[0].setAttribute('selected', 'selected');
             // elem[0].value = JSON.stringify(selectedItems);                    
 
-            var value = item.querySelector('input');                 
+                           
             value && value.addEventListener('keyup', (event) => {
                 var itemValue = event.target.value.toLowerCase();
                 var filter = arry.filter((el, index) => {
