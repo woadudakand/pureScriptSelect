@@ -70,14 +70,14 @@ pureScriptSearchNSelect = (selector) => {
                 });
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {
-                    var attrbute = '';
-                    var attrbute2 = '';
+                    let attribute = '';
+                    let attribute2 = '';
                     if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
+                        attribute = el.getAttribute('img');
                     }
 
                     if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
+                        attribute2 = el.getAttribute('icon');
                     }
                     item2 += `<li>${el.text}`;
                 });
@@ -95,7 +95,8 @@ pureScriptSearchNSelect = (selector) => {
             });
 
             var value = item.querySelector('input');
-            value && value.addEventListener('keyup', (event) => {
+
+            value && value.addEventListener('keyup', (event) => {                
                 var itemValue = event.target.value.toLowerCase();
                 var filter = arry.filter((el, index) => {
                         return el.startsWith(itemValue);
@@ -111,14 +112,14 @@ pureScriptSearchNSelect = (selector) => {
                 });
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {
-                    var attrbute = '';
-                    var attrbute2 = '';
+                    var attribute = '';
+                    var attribute2 = '';
                     if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
+                        attribute = el.getAttribute('img');
                     }
 
                     if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
+                        attribute2 = el.getAttribute('icon');
                     }
                     item2 += `<li>${el.text}</li>`;
                 });
@@ -201,17 +202,17 @@ pureScriptSearchNSelect = (selector) => {
                 
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {                    
-                    var attrbute = '';
-                    var attrbute2 = '';
+                    var attribute = '';
+                    var attribute2 = '';
                     if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
+                        attribute = el.getAttribute('img');
                     }
 
                     if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
+                        attribute2 = el.getAttribute('icon');
                     }
                     
-                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
+                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
                 });
                 item2 += '</ul>';
                 
@@ -223,8 +224,9 @@ pureScriptSearchNSelect = (selector) => {
                     return li[item.key].classList.add('showListItem')
                 });
 
-                li.forEach((el, index) => { 
+                li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
+                        console.log(el);
                         selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
                         option[0].setAttribute('selected', 'selected');
                         option[0].value = JSON.stringify(selectedItems);
@@ -239,7 +241,7 @@ pureScriptSearchNSelect = (selector) => {
             });
 
             eventDelegation('click', '.delete', function(e){
-                var li = item.querySelectorAll('li');
+                var li = item.querySelectorAll('li');                
                 selectedItems = selectedItems.filter(item => item.key !== parseInt(e.target.getAttribute('data-key')));
                 li.forEach((element, index) => {
                     if(parseInt(e.target.getAttribute('data-key')) === index){                            
@@ -252,15 +254,14 @@ pureScriptSearchNSelect = (selector) => {
                 option[0].setAttribute('selected', 'selected');
                 option[0].value = JSON.stringify(selectedItems);
             });
-            // elem[0].setAttribute('selected', 'selected');
-            // elem[0].value = JSON.stringify(selectedItems);                    
-
+            
             var value = item.querySelector('input');                 
             value && value.addEventListener('keyup', (event) => {
                 var itemValue = event.target.value.toLowerCase();
                 var filter = arry.filter((el, index) => {
                         return el.startsWith(itemValue);
-                    });        
+                    });   
+                     
                 var elem = [];
                 arryEl.forEach((el, index) => {
                     filter.forEach(e => {
@@ -270,28 +271,28 @@ pureScriptSearchNSelect = (selector) => {
                         } 
                     });    
                 });
-                var item2 = '<ul>';
+                var item2 = '<ul>';                
                 elem.forEach((el, key) => {
-                    var attrbute = '';
-                    var attrbute2 = '';
+                    var attribute = '';
+                    var attribute2 = '';
                     if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
+                        attribute = el.getAttribute('img');
                     }
 
                     if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
+                        attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
+                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
                 });
                 item2 += '</ul>';
+                console.log(item2)
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
                 popUp.innerHTML = item2;
                 var li = item.querySelectorAll('li');
                 li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.popUp').classList.remove('hasClass');
-                        item.querySelector('#button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                        sibling.querySelector('.directorist-select__dropdown--inner').classList.remove('hasClass');                        
                     });
                 });
             });
