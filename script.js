@@ -1,8 +1,8 @@
 pureScriptSearchNSelect = (selector) => {
     let selectors = document.querySelectorAll(selector);
-    function eventDelegation(event, selector, program) {
+    function eventDelegation(event, selectorss, program) {
         document.body.addEventListener(event, function(e) {
-            document.querySelectorAll(selector).forEach(elem => {
+            document.querySelectorAll(selectorss).forEach(elem => {
                 if (e.target === elem) {
                     program(e);
                 }
@@ -161,7 +161,7 @@ pureScriptSearchNSelect = (selector) => {
             <span class="directorist-error__msg"></span>`;
 
             function insertSearchItem () {
-                document.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove">x</a></span>`).join("")
+                item.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove">x</a></span>`).join("")
             }
             sibling.innerHTML = html;
             let arry = [],
@@ -191,8 +191,9 @@ pureScriptSearchNSelect = (selector) => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 var value = item.querySelector('input');  
-                value.focus();
-                sibling.querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
+                value.focus();                
+                document.querySelectorAll('.directorist-select__dropdown').forEach(el => el.classList.remove('directorist-select__dropdown-open'));
+                e.target.closest('.directorist-select__container').querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
                 
                 var elem = [];
                 arryEl.forEach((el, index) => {
