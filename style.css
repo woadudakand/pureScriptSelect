@@ -3,11 +3,16 @@ body{
     padding: 0;
     box-sizing: border-box;
 }
-.style{
-    width: 300px;
-    margin: 100px 50px;
-    height: 300px;
-    float: left;    
+div *{
+    box-sizing: border-box;
+}
+.select-item-list{
+    display: flex;
+    padding: 100px 30px;
+}
+.select-item-list .select-item-list--single{
+    padding: 20px 50px;
+    width: 100%;
 }
 
 .directorist-select__container {
@@ -19,130 +24,50 @@ body{
     min-width: 300px;
     background: #fff;    
 }
-.directorist-select__container button, .popUp, .popUp input{
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-.directorist-select__container button {
-	padding: 8px 10px;
-	border: none;
-	background: #fff;
-	border-radius: 0px;
-	cursor: pointer;
-	box-shadow: 0px 0px 3px #ddd;	
+
+.directorist-select__container .directorist-select__label{
     font-size: 16px;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 4px;
+    min-height: 42px;
+    padding: 0 15px;
+    background-color: #fff;
+    border: 1px solid #ececec;
 }
-.directorist-select__container button:focus {
-    outline: none;
-}
-.directorist-select__container button span {
-	position: absolute;
-	width: 35px;
-	height: 40px;
-	background: #fff;
-	top: -3px;
-	right: 2px;
-	font-size: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transform: rotate(90deg);
-	border-bottom: 1px solid #efefef;
-	color: #efefef;
-	padding-bottom: 8px;
-	box-sizing: border-box;
-}
-.directorist-select__container button:hover span{
-    color: #000;
-}
-.popUp {
-	background: #fff;
-	box-shadow: 1px 2px 3px #aaa;
-	padding: 5px;
-	box-sizing: border-box;
-	display: none;
-    margin-top: 1px;
-    max-height: 400px;
-    overflow-y: scroll;
-}
-.popUp::-webkit-scrollbar {
-    width: 6px;
-    background-color: rgb(241, 241, 241);
-}
-.popUp::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-}
-.popUp::-moz-scrollbar {
-    width: 6px;
-    background-color: rgb(241, 241, 241);
-}
-.popUp::-moz-scrollbar-thumb {
-    background-color: #ddd;
-}
-.popUp.hasClass{
-    display: block;
-}
-.popUp.directorist-select__dropdown-open{
-    display: block;
-}
-.popUp input {
-    /* box-shadow: 1px 1px 2px #888; */
-    padding: 6px 5px;
+.directorist-select__dropdown{
+    background: #fff;
+    box-shadow: 0 10px 40px rgb(134 142 174 / 30%);
+    padding: 15px;
     box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ddd;
+    display: none;
+    margin-top: 4px;
+    max-height: 400px;
+    overflow-y: auto;
 }
-.popUp ul{
+
+.directorist-select__dropdown .directorist-select__search.directorist-select__search--hide{
+    display: none;
+}
+
+.directorist-select__dropdown.directorist-select__dropdown-open{
+    display: block;
+}
+
+.directorist-select__dropdown .directorist-select__dropdown--inner ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-.popUp ul li{
+
+.directorist-select__dropdown .directorist-select__dropdown--inner ul li{
+    font-size: 14px;
+    padding: 5px 10px;
     cursor: pointer;
-    padding: 5px 0px 5px 5px;    
-}
-.popUp ul li:hover{
-    color: #01e9286c;
 }
 
-.popUp ul li img {
-    width: 20px;    
-    float: right;
-}
-.popUp ul li b {   
-    float: right;
-}
-.directorist-select__container button .item{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    margin-top: -10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.directorist-select__container button .item img{
-    width: 100%;      
-}
-.inputShow{
-    display: block;
-}
-.inputHide{
-    display: none;
-}
-.directorist-select-item-hide {
-    background-color: #fff;
-}
-.directorist-select-item-show {
-    background-color: rgb(199, 6, 6);
-}
-
-/* New Style */
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label{
     display: flex;
     flex-wrap: wrap;
@@ -151,7 +76,7 @@ body{
     padding: 2.5px 15px;
     border-radius: 4px;
     margin: -4px;
-    min-height: 35px;
+    min-height: 42px;
 }
 
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label input{
@@ -175,6 +100,10 @@ body{
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label .directorist-select__selected-list,
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label .directorist-select__search{
     margin: 0;
+}
+
+.directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label .directorist-select__search{
+    flex: auto;
 }
 
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label .directorist-select__selected-list .directorist-select__selected-list--item{
