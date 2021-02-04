@@ -79,7 +79,7 @@ pureScriptSearchNSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}</li>`;
+                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -121,7 +121,7 @@ pureScriptSearchNSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}</li>`;
+                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attrbute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -289,9 +289,8 @@ pureScriptSearchNSelect = (selector) => {
                         insertSearchItem();
                     } else {
                         if(selectedItems.length < parseInt(isMax)){
-                            console.log("yes");
-                            
-                            selectedItems.filter(item => item.key === index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
+                            console.log(selectedItems, index)                                                        
+                            selectedItems.filter(item => item.key == index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
                             option[0].setAttribute('selected', 'selected');
                             option[0].value = JSON.stringify(selectedItems);                        
                             e.target.classList.remove('directorist-select-item-hide');

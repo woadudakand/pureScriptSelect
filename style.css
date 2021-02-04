@@ -3,7 +3,7 @@ body{
     padding: 0;
     box-sizing: border-box;
 }
-div *{
+*, :after, :before {
     box-sizing: border-box;
 }
 .select-item-list{
@@ -63,11 +63,15 @@ div *{
 }
 
 .directorist-select__dropdown .directorist-select__dropdown--inner ul li{
+    display: flex;
+    justify-content: space-between;
     font-size: 14px;
     padding: 5px 10px;
     cursor: pointer;
 }
-
+.directorist-select__dropdown .directorist-select__dropdown--inner ul li .directorist-select-dropdown-item-icon img{
+    max-width: 20px;
+}
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__label{
     display: flex;
     flex-wrap: wrap;
@@ -150,6 +154,9 @@ div *{
 .directorist-select.directorist-select-multi .directorist-select__container .directorist-select__dropdown ul li.directorist-select-item-show{
     background-color: #F4F5F7;
     border-radius: 4px;
+}
+span.directorist-select__selected-list--item:first-letter {
+    text-transform: capitalize;
 }
 
 /* Directorist Error */
