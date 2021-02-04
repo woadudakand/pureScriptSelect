@@ -162,6 +162,7 @@ body{
 }
 
 .directorist-select.directorist-select-multi .directorist-select__container #directorist-select__label input{
+    font-size: 14px;
     border: 0 none;
     width: auto;
     padding: 5px;

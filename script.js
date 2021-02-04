@@ -182,9 +182,11 @@ pureScriptSearchNSelect = (selector) => {
                 }                
             });
 
+           
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+                var value = item.querySelector('input');  
+                value.focus();
                 sibling.querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
                 
                 var elem = [];
@@ -222,7 +224,7 @@ pureScriptSearchNSelect = (selector) => {
                     return li[item.key].classList.add('showListItem')
                 });
 
-                var value = item.querySelector('input');                 
+                               
                 value && value.addEventListener('keyup', (event) => {                    
                     var itemValue = event.target.value.toLowerCase();
                     var filter = arry.filter((el, index) => {
@@ -309,8 +311,50 @@ pureScriptSearchNSelect = (selector) => {
                 option[0].setAttribute('selected', 'selected');
                 option[0].value = JSON.stringify(selectedItems);
             });
-            
-            
+            // elem[0].setAttribute('selected', 'selected');
+            // elem[0].value = JSON.stringify(selectedItems);                    
+
+            /*               
+            value && value.addEventListener('keyup', (event) => {
+                var itemValue = event.target.value.toLowerCase();
+                var filter = arry.filter((el, index) => {
+                        return el.startsWith(itemValue);
+                    });        
+                var elem = [];
+                arryEl.forEach((el, index) => {
+                    filter.forEach(e => {
+                        if(el.text.toLowerCase() == e){
+                            elem.push(el);
+                            el.style.display = 'block';                
+                        } 
+                    });    
+                });
+                var item2 = '<ul>';
+                elem.forEach((el, key) => {
+                    var attrbute = '';
+                    var attrbute2 = '';
+                    if(el.hasAttribute('img')){
+                        attrbute = el.getAttribute('img');
+                    }
+
+                    if(el.hasAttribute('icon')) {
+                        attrbute2 = el.getAttribute('icon');
+                    }
+                    item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
+                });
+                item2 += '</ul>';
+                var popUp = item.querySelector('.directorist-select__dropdown--inner');
+                popUp.innerHTML = item2;
+                var li = item.querySelectorAll('li');
+                li.forEach((el, index) => {
+                    el.addEventListener('click', (event) => {
+                        elem[index].setAttribute('selected', 'selected');
+                        sibling.querySelector('.popUp').classList.remove('directorist-select__dropdown.open');
+                        item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                    });
+                });
+            });
+            */
         }
 
         multiSelect ? multiSelects() : singleSelect();
