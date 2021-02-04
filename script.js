@@ -10,8 +10,9 @@ pureScriptSearchNSelect = (selector) => {
         });
     }
     selectors.forEach((item, index) => {
-        const multiSelect = item.getAttribute('multiSelect');
-        const isSearch = item.getAttribute('isSearch');
+        const multiSelect = item.getAttribute('data-multiSelect');
+        const isSearch = item.getAttribute('data-isSearch');
+        const isMax = item.getAttribute('data-max');
 
         function singleSelect(){
             let virtualSelect = document.createElement('div');
@@ -182,7 +183,6 @@ pureScriptSearchNSelect = (selector) => {
                 }                
             });
 
-           
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 var value = item.querySelector('input');  
@@ -264,97 +264,52 @@ pureScriptSearchNSelect = (selector) => {
                                 element.classList.remove('hideListItem');
                                 element.classList.add('showListItem');
                             }
-                        });
-                        // console.log(boleVal.indexOf(true));
+                        });                        
                         element.addEventListener('click', (event) => {
                             elem[index].el.setAttribute('selected', 'selected');
-                            sibling.querySelector('.directorist-select__dropdown--inner').classList.remove('directorist-select__dropdown.open');
-                            // item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                            sibling.querySelector('.directorist-select__dropdown--inner').classList.remove('directorist-select__dropdown.open');                                                
                         });
                     });
                 });
+                
                 eventDelegation('click', 'li', function(e){
                     var index = e.target.getAttribute('data-key');
-                    selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
+                    
+                    if(isMax === null){
+                        selectedItems.filter(item => item.key === index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
                         option[0].setAttribute('selected', 'selected');
-                        option[0].value = JSON.stringify(selectedItems);
-                        
+                        option[0].value = JSON.stringify(selectedItems);                        
                         e.target.classList.remove('hideListItem');
                         e.target.classList.add('showListItem');
                         insertSearchItem();
+                    } else {
+                        if(selectedItems.length < parseInt(isMax)){
+                            selectedItems.filter(item => item.key === index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
+                            option[0].setAttribute('selected', 'selected');
+                            option[0].value = JSON.stringify(selectedItems);                        
+                            e.target.classList.remove('hideListItem');
+                            e.target.classList.add('showListItem');
+                            insertSearchItem();
+                        }
+                    }
                 });
-                // li.forEach((el, index) => {
-                //     el.addEventListener('click', (event) => {                        
-                //         selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
-                //         option[0].setAttribute('selected', 'selected');
-                //         option[0].value = JSON.stringify(selectedItems);
-                        
-                //         event.target.classList.remove('hideListItem')  
-                //         event.target.classList.add('showListItem')  
-                //         insertSearchItem();         
-                //     });
-                // });                
-                
             });
 
             eventDelegation('click', '.directorist-item-remove', function(e){
                 var li = item.querySelectorAll('li');
                 selectedItems = selectedItems.filter(item => item.key != parseInt(e.target.getAttribute('data-key')));
+                
                 li.forEach((element, index) => {
                     if(parseInt(e.target.getAttribute('data-key')) === index){                            
                         element.classList.add('hideListItem')
                         element.classList.remove('showListItem')
                     }
-                })
-                
+                });
+
                 insertSearchItem();
                 option[0].setAttribute('selected', 'selected');
                 option[0].value = JSON.stringify(selectedItems);
-            });
-            // elem[0].setAttribute('selected', 'selected');
-            // elem[0].value = JSON.stringify(selectedItems);                    
-
-            /*               
-            value && value.addEventListener('keyup', (event) => {
-                var itemValue = event.target.value.toLowerCase();
-                var filter = arry.filter((el, index) => {
-                        return el.startsWith(itemValue);
-                    });        
-                var elem = [];
-                arryEl.forEach((el, index) => {
-                    filter.forEach(e => {
-                        if(el.text.toLowerCase() == e){
-                            elem.push(el);
-                            el.style.display = 'block';                
-                        } 
-                    });    
-                });
-                var item2 = '<ul>';
-                elem.forEach((el, key) => {
-                    var attrbute = '';
-                    var attrbute2 = '';
-                    if(el.hasAttribute('img')){
-                        attrbute = el.getAttribute('img');
-                    }
-
-                    if(el.hasAttribute('icon')) {
-                        attrbute2 = el.getAttribute('icon');
-                    }
-                    item2 += `<li>${el.text}<i class="item"><img src="${attrbute}" style="${attrbute == null && {display: 'none'} } " /><b class="${attrbute2}"></b></b></i></li>`;
-                });
-                item2 += '</ul>';
-                var popUp = item.querySelector('.directorist-select__dropdown--inner');
-                popUp.innerHTML = item2;
-                var li = item.querySelectorAll('li');
-                li.forEach((el, index) => {
-                    el.addEventListener('click', (event) => {
-                        elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.popUp').classList.remove('directorist-select__dropdown.open');
-                        item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
-                    });
-                });
-            });
-            */
+            });            
         }
 
         multiSelect ? multiSelects() : singleSelect();
