@@ -44,7 +44,6 @@ pureScriptSearchNSelect = (selector) => {
                 };
             });
 
-            //console.log(attribute);
             var input = item.querySelector('.directorist-select__dropdown input');
             document.body.addEventListener('click', (event) => {
                 if(event.target == selectTrigger || event.target == input)
@@ -146,16 +145,16 @@ pureScriptSearchNSelect = (selector) => {
             item.style.zIndex = '0';        
             let select = item.querySelectorAll('select'),
             sibling = item.querySelector('.directorist-select__container'),
-            option = ''           ;
+            option = '';
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
             });        
-            let html = `<div id="directorist-select__label"><div id="directorist-select__selected-list"></div><input class='pureStyle ${ isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /></div><div class="directorist-select__dropdown">            
+            let html = `<div id="directorist-select__label"><div id="directorist-select__selected-list"></div><input class='directorist-select__search ${ isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' /></div><div class="directorist-select__dropdown">            
             <div class="directorist-select__dropdown--inner"></div>
             </div>`;
 
             function insertSearchItem () {
-                document.getElementById('directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="delete">x</a></span>`).join("")
+                document.getElementById('directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove">x</a></span>`).join("")
             }
             
             sibling.innerHTML = html;
@@ -174,20 +173,19 @@ pureScriptSearchNSelect = (selector) => {
             });
             option[0].setAttribute('selected', 'selected');
             option[0].value = JSON.stringify(selectedItems);
-            //console.log(attribute);
-            
+                        
             document.body.addEventListener('click', (event) => {                        
                 if(event.target == button || event.target.closest('.directorist-select__container')){
                     return;
                 } else {
-                    sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                    sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                 }                
             });
 
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                sibling.querySelector('.directorist-select__dropdown').classList.add('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.add('directorist-select__dropdown-open');
                 
                 var elem = [];
                 arryEl.forEach((el, index) => {
@@ -212,7 +210,7 @@ pureScriptSearchNSelect = (selector) => {
                         attribute2 = el.getAttribute('icon');
                     }
                     
-                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
+                    item2 += `<li data-key="${key}" class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
                 });
                 item2 += '</ul>';
                 
@@ -224,25 +222,82 @@ pureScriptSearchNSelect = (selector) => {
                     return li[item.key].classList.add('showListItem')
                 });
 
-                li.forEach((el, index) => {
-                    el.addEventListener('click', (event) => {
-                        console.log(el);
-                        selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
+                var value = item.querySelector('input');                 
+                value && value.addEventListener('keyup', (event) => {                    
+                    var itemValue = event.target.value.toLowerCase();
+                    var filter = arry.filter((el, index) => {
+                            return el.startsWith(itemValue);
+                        });   
+                        
+                    var elem = [];
+                    arryEl.forEach((el, index) => {
+                        filter.forEach(e => {
+                            if(el.text.toLowerCase() == e){
+                                elem.push({el, index});
+                                el.style.display = 'block';                
+                            } 
+                        });    
+                    });
+                    var item2 = '<ul>';                
+                    elem.forEach(({el, index}, key) => {
+                        var attribute = '';
+                        var attribute2 = '';
+                        if(el.hasAttribute('img')){
+                            attribute = el.getAttribute('img');
+                        }
+
+                        if(el.hasAttribute('icon')) {
+                            attribute2 = el.getAttribute('icon');
+                        }                        
+                        item2 += `<li data-key="${index - 1}" class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
+                    });
+                    item2 += '</ul>';
+                    
+                    var popUp = item.querySelector('.directorist-select__dropdown--inner');
+                    popUp.innerHTML = item2;
+                    var li = item.querySelectorAll('li');
+                    li.forEach((element, index) => {
+                        selectedItems.map(item => {
+                            if(item.key == element.getAttribute('data-key')){
+                                element.classList.remove('hideListItem');
+                                element.classList.add('showListItem');
+                            }
+                        });
+                        // console.log(boleVal.indexOf(true));
+                        element.addEventListener('click', (event) => {
+                            elem[index].el.setAttribute('selected', 'selected');
+                            sibling.querySelector('.directorist-select__dropdown--inner').classList.remove('directorist-select__dropdown.open');
+                            // item.querySelector('button').innerHTML = el.innerHTML +'<span class="angel">&raquo;</span>';                    
+                        });
+                    });
+                });
+                eventDelegation('click', 'li', function(e){
+                    var index = e.target.getAttribute('data-key');
+                    selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
                         option[0].setAttribute('selected', 'selected');
                         option[0].value = JSON.stringify(selectedItems);
                         
-                        event.target.classList.remove('hideListItem')  
-                        event.target.classList.add('showListItem')  
-                        insertSearchItem();         
-                    });
+                        e.target.classList.remove('hideListItem');
+                        e.target.classList.add('showListItem');
+                        insertSearchItem();
                 });
-                
+                // li.forEach((el, index) => {
+                //     el.addEventListener('click', (event) => {                        
+                //         selectedItems.filter(item => item.key === index ).length === 0 && selectedItems.push({value: elem[index].value, key: index});
+                //         option[0].setAttribute('selected', 'selected');
+                //         option[0].value = JSON.stringify(selectedItems);
+                        
+                //         event.target.classList.remove('hideListItem')  
+                //         event.target.classList.add('showListItem')  
+                //         insertSearchItem();         
+                //     });
+                // });                
                 
             });
 
-            eventDelegation('click', '.delete', function(e){
-                var li = item.querySelectorAll('li');                
-                selectedItems = selectedItems.filter(item => item.key !== parseInt(e.target.getAttribute('data-key')));
+            eventDelegation('click', '.directorist-item-remove', function(e){
+                var li = item.querySelectorAll('li');
+                selectedItems = selectedItems.filter(item => item.key != parseInt(e.target.getAttribute('data-key')));
                 li.forEach((element, index) => {
                     if(parseInt(e.target.getAttribute('data-key')) === index){                            
                         element.classList.add('hideListItem')
@@ -255,47 +310,7 @@ pureScriptSearchNSelect = (selector) => {
                 option[0].value = JSON.stringify(selectedItems);
             });
             
-            var value = item.querySelector('input');                 
-            value && value.addEventListener('keyup', (event) => {
-                var itemValue = event.target.value.toLowerCase();
-                var filter = arry.filter((el, index) => {
-                        return el.startsWith(itemValue);
-                    });   
-                     
-                var elem = [];
-                arryEl.forEach((el, index) => {
-                    filter.forEach(e => {
-                        if(el.text.toLowerCase() == e){
-                            elem.push(el);
-                            el.style.display = 'block';                
-                        } 
-                    });    
-                });
-                var item2 = '<ul>';                
-                elem.forEach((el, key) => {
-                    var attribute = '';
-                    var attribute2 = '';
-                    if(el.hasAttribute('img')){
-                        attribute = el.getAttribute('img');
-                    }
-
-                    if(el.hasAttribute('icon')) {
-                        attribute2 = el.getAttribute('icon');
-                    }
-                    item2 += `<li class="hideListItem">${el.text}<i class="item"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></i></li>`;
-                });
-                item2 += '</ul>';
-                console.log(item2)
-                var popUp = item.querySelector('.directorist-select__dropdown--inner');
-                popUp.innerHTML = item2;
-                var li = item.querySelectorAll('li');
-                li.forEach((el, index) => {
-                    el.addEventListener('click', (event) => {
-                        elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.directorist-select__dropdown--inner').classList.remove('hasClass');                        
-                    });
-                });
-            });
+            
         }
 
         multiSelect ? multiSelects() : singleSelect();
