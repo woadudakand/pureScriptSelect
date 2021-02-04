@@ -49,13 +49,13 @@ pureScriptSearchNSelect = (selector) => {
             document.body.addEventListener('click', (event) => {
                 if(event.target == selectTrigger || event.target == input)
                 return;
-                sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                 input.value = '';
             });
 
             selectTrigger.addEventListener('click', (e) => {
                 e.preventDefault();
-                sibling.querySelector('.directorist-select__dropdown').classList.toggle('hasClass');
+                sibling.querySelector('.directorist-select__dropdown').classList.toggle('directorist-select__dropdown-open');
                 var filter = arry.filter((el, index) => {
                     return el;
                 });
@@ -79,7 +79,7 @@ pureScriptSearchNSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}`;
+                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -88,7 +88,7 @@ pureScriptSearchNSelect = (selector) => {
                 li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                        sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                         item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
                     });
                 });
@@ -121,7 +121,7 @@ pureScriptSearchNSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}</li>`;
+                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attrbute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -130,7 +130,7 @@ pureScriptSearchNSelect = (selector) => {
                 li.forEach((el, index) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
-                        sibling.querySelector('.directorist-select__dropdown').classList.remove('hasClass');
+                        sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                         item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
                     });
                 });
