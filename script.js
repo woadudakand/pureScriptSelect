@@ -1,4 +1,4 @@
-pureScriptSearchNSelect = (selector) => {
+pureScriptSelect = (selector) => {
     let selectors = document.querySelectorAll(selector);
     function eventDelegation(event, selector, program) {
         document.body.addEventListener(event, function(e) {
@@ -26,9 +26,14 @@ pureScriptSearchNSelect = (selector) => {
             select.forEach((sel) =>{
                 option = sel.querySelectorAll('option');
             });
-            let html = `<span class="directorist-select__label">${option[0].text} <span class="la la-angle-down"></span></span class=""><div class="directorist-select__dropdown">
-            <input class='directorist-select__search ${ isSearch ? 'directorist-select__search--show' : 'directorist-select__search--hide' }' type='text' class='value' placeholder='Filter Options....' />
-            <div class="directorist-select__dropdown--inner"></div>
+            let html = `
+            <div class="directorist-select__label">
+                <div class="directorist-select__label--text">${option[0].text}</div>
+                <span class="directorist-select__label--icon"><img src="assets/svg/angle-down-solid.svg" alt=""></span>
+            </div>
+            <div class="directorist-select__dropdown">
+                <input class='directorist-select__search ${ isSearch ? 'directorist-select__search--show' : 'directorist-select__search--hide' }' type='text' class='value' placeholder='Filter Options....' />
+                <div class="directorist-select__dropdown--inner"></div>
             </div>`;
             sibling.innerHTML = html;
             let arry = [],
@@ -41,7 +46,7 @@ pureScriptSearchNSelect = (selector) => {
                 arryEl.push(el);
                 el.style.display = 'none';
                 if(el.hasAttribute('selected')){
-                    selectTrigger.innerHTML = el.value +'<span class="la la-angle-down"></span>';
+                    selectTrigger.innerHTML = el.value +'<img src="assets/svg/angle-down-solid.svg" alt="">';
                 };
             });
 
@@ -79,7 +84,7 @@ pureScriptSearchNSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
+                    item2 += `<li><span class="directorist-select-dropdown-text">${el.text}</span> <span class="directorist-select-dropdown-item-icon"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -89,7 +94,7 @@ pureScriptSearchNSelect = (selector) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
                         sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
-                        item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
+                        item.querySelector('.directorist-select__label').innerHTML = el.querySelector('.directorist-select-dropdown-text').textContent +'<img src="assets/svg/angle-down-solid.svg" alt="">';
                     });
                 });
             });
@@ -131,7 +136,7 @@ pureScriptSearchNSelect = (selector) => {
                     el.addEventListener('click', (event) => {
                         elem[index].setAttribute('selected', 'selected');
                         sibling.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
-                        item.querySelector('.directorist-select__label').innerHTML = el.innerHTML +'<span class="la la-angle-down"></span>';
+                        item.querySelector('.directorist-select__label').innerHTML = el.querySelector('.directorist-select-dropdown-text').textContent +'<img src="assets/svg/angle-down-solid.svg" alt="">';
                     });
                 });
             });
@@ -153,7 +158,7 @@ pureScriptSearchNSelect = (selector) => {
             let html = `
             <div class="directorist-select__label">
                 <div class="directorist-select__selected-list"></div>
-                <input class='directorist-select__search ${ isSearch ? 'inputShow' : 'inputHide' }' type='text' class='value' placeholder='Filter Options....' />
+                <input class='directorist-select__search ${ isSearch ? 'directorist-select__search--show' : 'directorist-select__search--hide' }' type='text' class='value' placeholder='Filter Options....' />
             </div>
             <div class="directorist-select__dropdown">            
                 <div class="directorist-select__dropdown--inner"></div>
@@ -161,7 +166,7 @@ pureScriptSearchNSelect = (selector) => {
             <span class="directorist-error__msg"></span>`;
 
             function insertSearchItem () {
-                document.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove">x</a></span>`).join("")
+                document.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
             }
             sibling.innerHTML = html;
             let arry = [],
