@@ -51,6 +51,12 @@ body{
     width: 100%;
 }
 
+.directorist-select__container .directorist-select__selected-list .directorist-select__selected-list--item .directorist-item-remove i,
+.directorist-select__container .directorist-select__selected-list .directorist-select__selected-list--item .directorist-item-remove span.fa,
+.directorist-select__container .directorist-select__selected-list .directorist-select__selected-list--item .directorist-item-remove span.la{
+    pointer-events: none;
+}
+
 .directorist-select__dropdown{
     background: #fff;
     box-shadow: 0 10px 40px rgb(134 142 174 / 30%);

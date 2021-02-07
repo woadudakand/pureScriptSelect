@@ -1,14 +1,16 @@
 pureScriptSelect = (selector) => {
     let selectors = document.querySelectorAll(selector);
-    function eventDelegation(event, selectorss, program) {
+    
+    function eventDelegation(event, psSelector, program) {
         document.body.addEventListener(event, function(e) {
-            document.querySelectorAll(selectorss).forEach(elem => {
+            document.querySelectorAll(psSelector).forEach(elem => {
                 if (e.target === elem) {
                     program(e);
                 }
             })
         });
     }
+    let obeject = {};
     selectors.forEach((item, index) => {
         const multiSelect = item.getAttribute('data-multiSelect');
         const isSearch = item.getAttribute('data-isSearch');
@@ -39,7 +41,6 @@ pureScriptSelect = (selector) => {
             let arry = [],
             arryEl = [],
             selectTrigger = sibling.querySelector('.directorist-select__label');
-            // el1 = '';
 
             option.forEach((el, index) => {
                 arry.push(el.value);
@@ -126,7 +127,7 @@ pureScriptSelect = (selector) => {
                     if(el.hasAttribute('icon')) {
                         attribute2 = el.getAttribute('icon');
                     }
-                    item2 += `<li>${el.text}<span class="directorist-select-dropdown-item-icon"><img src="${attrbute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
+                    item2 += `<li><span class="directorist-select-dropdown-text">${el.text}</span><span class="directorist-select-dropdown-item-icon"><img src="${attribute}" style="${attribute == null && {display: 'none'} } " /><b class="${attribute2}"></b></b></span></li>`;
                 });
                 item2 += '</ul>';
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
@@ -142,7 +143,11 @@ pureScriptSelect = (selector) => {
             });
         }
 
-        function multiSelects(){         
+        function multiSelects(){    
+            obeject = {
+                [item.getAttribute('id')]: eval(item.getAttribute('data-multiSelect'))
+            };
+            console.log(obeject);
             let selectedItems = eval(multiSelect);
             let virtualSelect = document.createElement('div');
             virtualSelect.classList.add('directorist-select__container');
@@ -166,7 +171,7 @@ pureScriptSelect = (selector) => {
             <span class="directorist-error__msg"></span>`;
 
             function insertSearchItem () {
-                document.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
+                item.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
             }
             sibling.innerHTML = html;
             let arry = [],
@@ -294,8 +299,7 @@ pureScriptSelect = (selector) => {
                         e.target.classList.add('directorist-select-item-show');
                         insertSearchItem();
                     } else {
-                        if(selectedItems.length < parseInt(isMax)){
-                            console.log(selectedItems, index)                                                        
+                        if(selectedItems.length < parseInt(isMax)){                                                      
                             selectedItems.filter(item => item.key == index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
                             option[0].setAttribute('selected', 'selected');
                             option[0].value = JSON.stringify(selectedItems);                        
