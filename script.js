@@ -10,12 +10,12 @@ pureScriptSelect = (selector) => {
             })
         });
     }
-    let obeject = {};
+    let defaultValues = {};
+    let isMax = {};
     selectors.forEach((item, index) => {
         const multiSelect = item.getAttribute('data-multiSelect');
         const isSearch = item.getAttribute('data-isSearch');
-        const isMax = item.getAttribute('data-max');
-
+        
         function singleSelect(){
             let virtualSelect = document.createElement('div');
             virtualSelect.classList.add('directorist-select__container');
@@ -143,12 +143,11 @@ pureScriptSelect = (selector) => {
             });
         }
 
-        function multiSelects(){    
-            obeject = {
-                [item.getAttribute('id')]: eval(item.getAttribute('data-multiSelect'))
-            };
-            console.log(obeject);
-            let selectedItems = eval(multiSelect);
+        function multiSelects(){
+            const arraySelector = item.getAttribute('id');
+            defaultValues[arraySelector]= eval(item.getAttribute('data-multiSelect'));
+            isMax[arraySelector] = item.getAttribute('data-max');
+
             let virtualSelect = document.createElement('div');
             virtualSelect.classList.add('directorist-select__container');
             item.append(virtualSelect);
@@ -171,7 +170,7 @@ pureScriptSelect = (selector) => {
             <span class="directorist-error__msg"></span>`;
 
             function insertSearchItem () {
-                item.querySelector('.directorist-select__selected-list').innerHTML = selectedItems.map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
+                item.querySelector('.directorist-select__selected-list').innerHTML = defaultValues[arraySelector].map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
             }
             sibling.innerHTML = html;
             let arry = [],
@@ -188,7 +187,7 @@ pureScriptSelect = (selector) => {
                 };            
             });
             option[0].setAttribute('selected', 'selected');
-            option[0].value = JSON.stringify(selectedItems);
+            option[0].value = JSON.stringify(defaultValues[arraySelector]);
                         
             document.body.addEventListener('click', (event) => {                        
                 if(event.target == button || event.target.closest('.directorist-select__container')){
@@ -235,7 +234,7 @@ pureScriptSelect = (selector) => {
                 popUp.innerHTML = item2;
                 var li = item.querySelectorAll('li');
                 
-                selectedItems.map((item, key) => {
+                defaultValues[arraySelector].map((item, key) => {
                     li[item.key].classList.remove('directorist-select-item-hide')
                     return li[item.key].classList.add('directorist-select-item-show')
                 });
@@ -275,7 +274,7 @@ pureScriptSelect = (selector) => {
                     popUp.innerHTML = item2;
                     var li = item.querySelectorAll('li');
                     li.forEach((element, index) => {
-                        selectedItems.map(item => {
+                        defaultValues[arraySelector].map(item => {
                             if(item.key == element.getAttribute('data-key')){
                                 element.classList.remove('directorist-select-item-hide');
                                 element.classList.add('directorist-select-item-show');
@@ -291,25 +290,25 @@ pureScriptSelect = (selector) => {
                 eventDelegation('click', 'li', function(e){
                     var index = e.target.getAttribute('data-key');
                     
-                    if(isMax === null){
-                        selectedItems.filter(item => item.key === index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
+                    if(isMax[arraySelector] === null){
+                        defaultValues[arraySelector].filter(item => item.key === index ).length === 0 &&  defaultValues[arraySelector].push({value: elem[index].value, key: index});
                         option[0].setAttribute('selected', 'selected');
-                        option[0].value = JSON.stringify(selectedItems);                        
+                        option[0].value = JSON.stringify(defaultValues[arraySelector]);                        
                         e.target.classList.remove('directorist-select-item-hide');
                         e.target.classList.add('directorist-select-item-show');
                         insertSearchItem();
-                    } else {
-                        if(selectedItems.length < parseInt(isMax)){                                                      
-                            selectedItems.filter(item => item.key == index ).length === 0 &&  selectedItems.push({value: elem[index].value, key: index});
+                    } else {                        
+                        if(defaultValues[arraySelector].length < parseInt(isMax[arraySelector])){                                                      
+                            defaultValues[arraySelector].filter(item => item.key == index ).length === 0 &&  defaultValues[arraySelector].push({value: elem[index].value, key: index});
                             option[0].setAttribute('selected', 'selected');
-                            option[0].value = JSON.stringify(selectedItems);                        
+                            option[0].value = JSON.stringify(defaultValues[arraySelector]);                        
                             e.target.classList.remove('directorist-select-item-hide');
                             e.target.classList.add('directorist-select-item-show');
                             insertSearchItem();
                         }else{
                             item.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
                             item.querySelector('.directorist-select__container').classList.add('directorist-error');
-                            item.querySelector('.directorist-error__msg').innerHTML = `Max ${isMax} Items Added `;
+                            item.querySelector('.directorist-error__msg').innerHTML = `Max ${isMax[arraySelector]} Items Added `;
                         }
                     }
                 });
@@ -317,8 +316,8 @@ pureScriptSelect = (selector) => {
 
             eventDelegation('click', '.directorist-item-remove', function(e){
                 var li = item.querySelectorAll('li');
-                selectedItems = selectedItems.filter(item => item.key != parseInt(e.target.getAttribute('data-key')));
-                if(selectedItems.length < parseInt(isMax)){
+                defaultValues[arraySelector] = defaultValues[arraySelector].filter(item => item.key != parseInt(e.target.getAttribute('data-key')));
+                if(defaultValues[arraySelector].length < parseInt(isMax[arraySelector])){
                     item.querySelector('.directorist-select__container').classList.remove('directorist-error');
                     item.querySelector('.directorist-error__msg').innerHTML = '';
                 }
@@ -331,7 +330,7 @@ pureScriptSelect = (selector) => {
 
                 insertSearchItem();
                 option[0].setAttribute('selected', 'selected');
-                option[0].value = JSON.stringify(selectedItems);
+                option[0].value = JSON.stringify(defaultValues[arraySelector]);
             });            
         }
 
