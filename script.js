@@ -67,20 +67,18 @@ pureScriptSelect = (selector) => {
             selectTrigger.addEventListener('click', (e) => {
                 e.preventDefault();
                 sibling.querySelector('.directorist-select__dropdown').classList.toggle('directorist-select__dropdown-open');
-                var filter = arry.filter((el, index) => {
-                    return el;
-                });
+                                
                 var elem = [];
-                arryEl.forEach((el, index) => {
-                    filter.forEach(e => {
-                        if(el.text.toLowerCase() == e){
-                            elem.push(el);
-                            el.style.display = 'block';
-                        }
-                    });
+                arryEl.forEach((el, index) => {                   
+                    if(index !== 0 || el.value !== ''){
+                        elem.push(el);
+                        el.style.display = 'block';
+                    }                      
                 });
+
                 var item2 = '<ul>';
                 elem.forEach((el, key) => {
+                    el.removeAttribute('selected');                    
                     let attribute = '';
                     let attribute2 = '';
                     if(el.hasAttribute('img')){
@@ -175,12 +173,14 @@ pureScriptSelect = (selector) => {
             function insertSearchItem () {
                 item.querySelector('.directorist-select__selected-list').innerHTML = defaultValues[arraySelector].map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
             }
+
             sibling.innerHTML = html;
             let arry = [],
             arryEl = [],
             button = sibling.querySelector('.directorist-select__label');
             el1 = '';
             insertSearchItem();
+
             option.forEach((el, index) => {
                 arry.push(el.value);
                 arryEl.push(el);
@@ -210,17 +210,18 @@ pureScriptSelect = (selector) => {
                 
                 var elem = [];
                 arryEl.forEach((el, index) => {
-                    arry.forEach(e => {
-                        if(el.text.toLowerCase() == e){                            
+                    arryEl.forEach((el, index) => {                   
+                        if(index !== 0 || el.value !== ''){
                             elem.push(el);
-                            el.style.display = 'block';                
-                        } 
+                            el.style.display = 'block';
+                        }                      
                     });     
                 });
                 var popUp = item.querySelector('.directorist-select__dropdown--inner');
                 
                 var item2 = '<ul>';
-                elem.forEach((el, key) => {                    
+                elem.forEach((el, key) => {
+                    el.removeAttribute('selected')     
                     var attribute = '';
                     var attribute2 = '';
                     if(el.hasAttribute('img')){
