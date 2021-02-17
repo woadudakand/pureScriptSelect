@@ -157,8 +157,16 @@ pureScriptSelect = (selector) => {
             let select = item.querySelectorAll('select'),
             sibling = item.querySelector('.directorist-select__container'),
             option = '';
+
             select.forEach((sel) =>{
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.innerHTML = "Selected Item";
                 option = sel.querySelectorAll('option');
+                if(option[0].value !== ''){
+                    sel.prepend(opt)
+                    option = sel.querySelectorAll('option');
+                }
             });        
             let html = `
             <div class="directorist-select__label">
@@ -171,7 +179,7 @@ pureScriptSelect = (selector) => {
             <span class="directorist-error__msg"></span>`;
 
             function insertSearchItem () {
-                item.querySelector('.directorist-select__selected-list').innerHTML = defaultValues[arraySelector].map(item => `<span class="directorist-select__selected-list--item">${item.value}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
+                item.querySelector('.directorist-select__selected-list').innerHTML = defaultValues[arraySelector].map(item => `<span class="directorist-select__selected-list--item">${item.label}&nbsp;&nbsp;<a href="#" data-key="${item.key}" class="directorist-item-remove"><i class="fa fa-times"></i></a></span>`).join("")
             }
 
             sibling.innerHTML = html;
@@ -211,7 +219,7 @@ pureScriptSelect = (selector) => {
                 var elem = [];
                 arryEl.forEach((el, index) => {
                     arryEl.forEach((el, index) => {                   
-                        if(index !== 0 || el.value !== ''){
+                        if(index !== 0 ){
                             elem.push(el);
                             el.style.display = 'block';
                         }                      
@@ -298,7 +306,7 @@ pureScriptSelect = (selector) => {
                     
                                                          
                     if(isMax[closestId] === null && defaultValues[closestId]){
-                        defaultValues[closestId].filter(item => item.key === index ).length === 0 &&  defaultValues[closestId].push({value: elem[index].value, key: index});
+                        defaultValues[closestId].filter(item => item.key === index ).length === 0 &&  defaultValues[closestId].push({value: elem[index].value, label:elem[index].innerHTML, key: index});
                         option[0].setAttribute('selected', 'selected');
                         option[0].value = JSON.stringify(defaultValues[closestId]);                        
                         e.target.classList.remove('directorist-select-item-hide');
@@ -307,7 +315,7 @@ pureScriptSelect = (selector) => {
                     } else {   
                         if(defaultValues[closestId])
                         if(defaultValues[closestId].length < parseInt(isMax[closestId])){                                                      
-                            defaultValues[closestId].filter(item => item.key == index ).length === 0 &&  defaultValues[closestId].push({value: elem[index].value, key: index});
+                            defaultValues[closestId].filter(item => item.key == index ).length === 0 &&  defaultValues[closestId].push({value: elem[index].value, label: elem[index].innerHTML, key: index});
                             option[0].setAttribute('selected', 'selected');
                             option[0].value = JSON.stringify(defaultValues[closestId]);                        
                             e.target.classList.remove('directorist-select-item-hide');
