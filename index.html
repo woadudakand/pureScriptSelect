@@ -14,7 +14,7 @@
         <div class="select-item-list">
             <div class="select-item-list--single">
                 <h4>Basic Select</h4>
-                <div class="directorist-select" id="selectImg">                       
+                <div class="directorist-select" data-default="dgdgdg" data-isSearch="true" id="selectImg">                       
                     <select name="" >
                         <option value="">Select Item</option>                
                         <option value="dgdgdg">Hasan</option>               
@@ -25,40 +25,8 @@
             </div>
             <div class="select-item-list--single">
                 <h4>Multi Select</h4>
-                <div class="directorist-select directorist-select-multi" id="select" data-isSearch="true" data-multiSelect='[{value: "abul", key: 0, label: "Abul"}]' data-max="4">               
-                    <select name="mySelect" >
-                        <option value="">Select Item</option>
-                        <option value="abul">Abul</option>
-                        <option value="bacco">Bacco</option>                
-                        <option value="bodri">Bodri</option>
-                        <option value="canmia">Canmia</option>                
-                        <option value="choncol">Choncol</option>
-                        <option value="condon">Condon</option>
-                        <option value="chalek">Chalek</option>                
-                        <option value="deloar">Deloar</option>
-                        <option value="dulon">Dulon</option>                
-                        <option value="dipu">Dipu</option>
-                        <option value="dulal">Dulal</option>      
-                    </select>               
-                </div>
-            </div>
-            <div class="select-item-list--single">
-                <h4>Multi Select</h4>
-                <div class="directorist-select directorist-select-multi" id="multiSelect" data-isSearch="true" data-multiSelect='[{value: "abul", label: "Abul", key: 0}]' data-max="5">               
-                    <select name="mySelect" >
-                        <!-- <option value="">Select Item</option> -->
-                        <option value="abul">Abul</option>
-                        <option value="bacco">Bacco</option>                
-                        <option value="bodri">Bodri</option>
-                        <option value="canmia">Canmia</option>                
-                        <option value="choncol">Choncol</option>
-                        <option value="condon">Condon</option>
-                        <option value="chalek">Chalek</option>                
-                        <option value="deloar">Deloar</option>
-                        <option value="dulon">Dulon</option>                
-                        <option value="dipu">Dipu</option>
-                        <option value="dulal">Dulal</option>      
-                    </select>               
+                <div class="directorist-select directorist-select-multi" id="multiSelect" data-isSearch="true" data-multiSelect="['apple', 'banana', 'orange', 'mango']" data-default="['apple']">               
+                    <input type="hidden">
                 </div>
             </div>
             <div class="select-item-list--single">
@@ -67,20 +35,16 @@
                     <select name="" >
                         <option value="">Select Item</option>
                         <option icon="fas fa-check" value="abul">Abul</option>
-                        <option icon="fas fa-check" value="bacco">Bacco</option>                
+                        <option icon="fas fa-check" value="3">Bacco</option>                
                         <option img='https://upload.wikimedia.org/wikipedia/commons/f/f9/Flag_of_Bangladesh.svg' value="barek">Barek</option>
                         <option icon="fas fa-check" value="canmia">Canmia</option>                
-                        <option icon="fas fa-check" value="chonchol">Chonchol</option>
+                        <option icon="fas fa-check" value="5">Chonchol</option>
                         <option icon="fas fa-check" value="chondon">Chondon</option>
                         <option icon="fas fa-check" value="chalek">Chalek</option>                
                         <option icon="fas fa-check" value="deloar">Deloar</option>
                         <option icon="fas fa-check" value="dulon">Dulon</option>                
                         <option icon="fas fa-check" value="dipu">Dipu</option>
-                        <option icon="fas fa-check" value="dulal">Dulal</option>        
-                        <option icon="fas fa-check" value="dulal">Dulal</option>        
-                        <option icon="fas fa-check" value="dulal">Dulal</option>        
-                        <option icon="fas fa-check" value="dulal">Dulal</option>        
-                        <option icon="fas fa-check" value="dulal">Dulal</option>        
+                        <option icon="fas fa-check" value="dulal">Dulal</option>
                     </select>                   
                 </div>
             </div>
@@ -88,7 +52,7 @@
     </div>   
     <script src="script.js"></script>
     <script>
-        pureScriptSelect('#select');
+        // pureScriptSelect('#select');
         pureScriptSelect('#multiSelect');
         pureScriptSelect('#selectImg');
         pureScriptSelect('#selectIcon');
