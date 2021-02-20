@@ -1,4 +1,5 @@
-pureScriptSelect = (selector) => {
+"use strict";
+const pureScriptSelect = (selector) => {
     let selectors = document.querySelectorAll(selector);
     
     function eventDelegation(event, psSelector, program) {
@@ -188,7 +189,7 @@ pureScriptSelect = (selector) => {
             }
 
             sibling.innerHTML = html;            
-            button = sibling.querySelector('.directorist-select__label');            
+            const button = sibling.querySelector('.directorist-select__label');            
             insertSearchItem();
                                                 
             document.body.addEventListener('click', (event) => {                        
@@ -236,14 +237,36 @@ pureScriptSelect = (selector) => {
                         });
                     
                     if(event.keyCode === 13){
-                        if(!defaultValues[arraySelector].includes(event.target.value)){
-                            defaultValues[arraySelector].push(event.target.value);
-                            optionValues[arraySelector].push(event.target.value);
-                            insertSearchItem();                
-                            hiddenInput.value = JSON.stringify(defaultValues[arraySelector]);
-                            // value.value = '';
-                            document.querySelectorAll('.directorist-select__dropdown').forEach(el => el.classList.remove('directorist-select__dropdown-open'));                          
+                        if(isMax[arraySelector]){
+
+                            if(defaultValues[arraySelector].length < parseInt(isMax[arraySelector])){                                                      
+                                if(!defaultValues[arraySelector].includes(event.target.value) && event.target.value !== ''){
+                                    defaultValues[arraySelector].push(event.target.value);
+                                    optionValues[arraySelector].push(event.target.value);
+                                    insertSearchItem();                
+                                    hiddenInput.value = JSON.stringify(defaultValues[arraySelector]);
+                                    value.value = '';
+                                    document.querySelectorAll('.directorist-select__dropdown').forEach(el => el.classList.remove('directorist-select__dropdown-open'));                          
+                                }
+                            } else {                            
+                                item.querySelector('.directorist-select__dropdown').classList.remove('directorist-select__dropdown-open');
+                                if(e.target.closest('.directorist-select')){
+
+                                    e.target.closest('.directorist-select').querySelector('.directorist-select__container').classList.add('directorist-error');
+                                    e.target.closest('.directorist-select').querySelector('.directorist-error__msg').innerHTML = `Max ${isMax[arraySelector]} Items Added `;
+                                }
+                            }
+                        } else {
+                            if(!defaultValues[arraySelector].includes(event.target.value) && event.target.value !== ''){
+                                defaultValues[arraySelector].push(event.target.value);
+                                optionValues[arraySelector].push(event.target.value);
+                                insertSearchItem();                
+                                hiddenInput.value = JSON.stringify(defaultValues[arraySelector]);
+                                value.value = '';
+                                document.querySelectorAll('.directorist-select__dropdown').forEach(el => el.classList.remove('directorist-select__dropdown-open'));                          
+                            }
                         }
+                        
                     }
                         
                     var elem = [];
@@ -294,10 +317,10 @@ pureScriptSelect = (selector) => {
                         insertSearchItem();
                     } else {   
                         if(defaultValues[closestId])
-                        if(defaultValues[closestId].length < parseInt(isMax[closestId])){                                                      
+                        if(defaultValues[closestId].length  < parseInt(isMax[closestId])){                                                      
                             defaultValues[closestId].filter(item => item == index ).length === 0 &&  defaultValues[closestId].push(index);
                            
-                            hiddenInput[0].value = JSON.stringify(defaultValues[closestId]);                        
+                            hiddenInput.value = JSON.stringify(defaultValues[closestId]);                        
                             e.target.classList.remove('directorist-select-item-hide');
                             e.target.classList.add('directorist-select-item-show');
                             insertSearchItem();
